@@ -20,11 +20,11 @@ namespace RheinwerkAdventure
 	static class Program
 #endif
 	{
-		private static Game1 game;
+		private static RheinwerkGame game;
 
 		internal static void RunGame()
 		{
-			game = new Game1();
+			game = new RheinwerkGame();
 			game.Run();
 #if !__IOS__ && !__TVOS__
 			game.Dispose();

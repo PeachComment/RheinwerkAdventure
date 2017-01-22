@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace RheinwerkAdventure
@@ -22,6 +23,7 @@ namespace RheinwerkAdventure
 		public SimulationComponent(RheinwerkGame game) : base(game)
 		{
 			this.game = game;
+			NewGame();
 		}
 
 		public void NewGame()
@@ -49,7 +51,25 @@ namespace RheinwerkAdventure
 
 		public override void Update(GameTime gameTime)
 		{
-			
+			#region Player Input
+
+			Player.Velocity = game.Input.Movement * 10f;
+
+			#endregion
+
+			#region Character Movement
+
+			foreach (var area in World.Areas)
+			{
+				foreach (var character in area.Items.OfType<Character>())
+				{
+					character.Position += character.Velocity * (float) gameTime.ElapsedGameTime.TotalSeconds;
+				}
+			}
+
+			#endregion
+
+			base.Update(gameTime);
 		}
 	}
 }

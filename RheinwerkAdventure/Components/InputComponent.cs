@@ -25,7 +25,7 @@ namespace RheinwerkAdventure
 			Vector2 movement = Vector2.Zero;
 
 			// Gamepad Steuerung
-			GamePadState gamePad = GamePad.GetState(1);
+			GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
 			movement += gamePad.ThumbSticks.Left * new Vector2(1f, -1f);
 
 			// Keyboard Steuerung

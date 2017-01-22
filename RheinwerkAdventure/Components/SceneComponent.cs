@@ -6,55 +6,68 @@ namespace RheinwerkAdventure
 {
 	internal class SceneComponent : DrawableGameComponent
 	{
-		private SpriteBatch spriteBatch;
-		//private Texture2D star;
-		private Texture2D pixel;
-		private Game1 game;
+		private RheinwerkGame game;
 
-		public SceneComponent(Game1 game) : base(game)
+		private SpriteBatch spriteBatch;
+
+		private Texture2D pixel;
+
+		public SceneComponent(RheinwerkGame game) : base(game)
 		{
 			this.game = game;
 		}
 
 		protected override void LoadContent()
 		{
-			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			//TODO: use this.Content to load your game content here 
-			//star = game.Content.Load<Texture2D>("starGold");
 			pixel = new Texture2D(GraphicsDevice, 1, 1);
-			pixel.SetData<Color>(new Color[] { Color.White });
-
-			base.LoadContent();
+			pixel.SetData(new[] { Color.White });
 		}
 
 		public override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.Black);
+			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			int width = GraphicsDevice.Viewport.Width - 20;
-			int height = GraphicsDevice.Viewport.Height - 20;
+			Area area = this.game.Simulation.World.Areas[0];
 
-			//TODO: Add your drawing code here
+			float scaleX = (GraphicsDevice.Viewport.Width - 20) / area.Width;
+			float scaleY = (GraphicsDevice.Viewport.Height - 20) / area.Height;
+
 			spriteBatch.Begin();
-			//spriteBatch.Draw(star, game.Simulation.Position, Color.White);
 
-			spriteBatch.Draw(pixel, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, 10), Color.DarkGray);
-			spriteBatch.Draw(pixel, new Rectangle(0, GraphicsDevice.Viewport.Height - 10, GraphicsDevice.Viewport.Width, 10), Color.DarkGray);
-			spriteBatch.Draw(pixel, new Rectangle(GraphicsDevice.Viewport.Width - 10, 0, 10, GraphicsDevice.Viewport.Height), Color.DarkGray);
+			for (int x = 0; x < area.Width; x++)
+			{
+				for (int y = 0; y < area.Height; y++)
+				{
+					Tile tile = area.Tiles[x, y];
 
-			spriteBatch.Draw(pixel, new Rectangle((int)(this.game.Simulation.BallPosition.X * width) + 10,
-												  (int)(this.game.Simulation.BallPosition.Y * height) + 10, 10, 10), Color.White);
+					int offsetX = (int)(x * scaleX) + 10;
+					int offsetY = (int)(y * scaleY) + 10;
 
-			int playerRadius = (int)(game.Simulation.PlayerSize * height) / 2;
-			int player = (int)(game.Simulation.PlayerPosition * height) - playerRadius + 10;
+					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), Color.DarkGreen);
+					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, 1, (int)scaleY), Color.Black);
+					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, 1), Color.Black);
+				}
+			}
 
-			spriteBatch.Draw(pixel, new Rectangle(0, player, 10, playerRadius * 2), Color.DarkGray);
+			foreach (var item in area.Items)
+			{
+				Color color = Color.Yellow;
+				if (item is Player)
+				{
+					color = Color.Red;
+				}
+
+				int posX = (int)((item.Position.X - item.Radius) * scaleX) + 10;
+				int posY = (int)((item.Position.Y - item.Radius) * scaleY) + 10;
+				int sizeX = (int)((item.Radius * 2) * scaleX);
+				int sizeY = (int)((item.Radius * 2) * scaleY);
+
+				spriteBatch.Draw(pixel, new Rectangle(posX, posY, sizeX, sizeY), color); 
+			}
 
 			spriteBatch.End();
-
-			base.Draw(gameTime);
 		}
 	}
 }
