@@ -6,47 +6,54 @@ namespace RheinwerkAdventure
 {
 	internal class InputComponent : GameComponent
 	{
-		public Vector2 Direction
+
+		private readonly RheinwerkGame game;
+
+		public Vector2 Movement
 		{
 			get;
 			private set;
 		}
 
-		public InputComponent(Game1 game) : base(game)
+		public InputComponent(RheinwerkGame game) : base(game)
 		{
+			this.game = game;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			GamePadState state = GamePad.GetState(PlayerIndex.One);
+			Vector2 movement = Vector2.Zero;
 
-			Direction = state.ThumbSticks.Left * new Vector2(1f, -1f);
+			// Gamepad Steuerung
+			GamePadState gamePad = GamePad.GetState(1);
+			movement += gamePad.ThumbSticks.Left * new Vector2(1f, -1f);
 
-			//if (Keyboard.GetState().IsKeyDown(Keys.Left))
-			//{
-			//	pos += new Vector2(-1f, 0f);
-			//}
-			//if (Keyboard.GetState().IsKeyDown(Keys.Right))
-			//{
-			//	pos += new Vector2(1f, 0f);
-			//}
-			//if (Keyboard.GetState().IsKeyDown(Keys.Up))
-			//{
-			//	pos += new Vector2(0f, -1f);
-			//}
-			//if (Keyboard.GetState().IsKeyDown(Keys.Down))
-			//{
-			//	pos += new Vector2(0f, 1f);
-			//}
+			// Keyboard Steuerung
+			KeyboardState keyboard = Keyboard.GetState();
+			if (keyboard.IsKeyDown(Keys.Left))
+			{
+				movement += new Vector2(-1f, 0f);
+			}
+			if (keyboard.IsKeyDown(Keys.Right))
+			{
+				movement += new Vector2(1f, 0f);
+			}
+			if (keyboard.IsKeyDown(Keys.Up))
+			{
+				movement += new Vector2(0f, -1f);
+			}
+			if (keyboard.IsKeyDown(Keys.Down))
+			{
+				movement += new Vector2(0f, 1f);
+			}
 
-			//if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-			//{
-			//	int x = Mouse.GetState().X;
-			//	int y = Mouse.GetState().Y;
-			//	pos = new Vector2(x, y);
-			//}
+			if (movement.Length() > 1f)
+			{
+				movement.Normalize();
+			}
 
-			base.Update(gameTime);
+			Movement = movement;
+
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	public class Decard : Character, IInteractable
+	internal class Decard : Character, IInteractable
 	{
 		public Decard()
 		{

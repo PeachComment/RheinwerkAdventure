@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	public class Player : Character, IAttackable
+	internal class Player : Character, IAttackable
 	{
 		public int Hitpoints
 		{

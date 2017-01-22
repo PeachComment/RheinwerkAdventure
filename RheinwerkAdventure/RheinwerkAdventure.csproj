@@ -37,7 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="RheinwerkGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\InputComponent.cs" />
@@ -55,6 +55,7 @@
     <Compile Include="Model\Heidi.cs" />
     <Compile Include="Model\Orc.cs" />
     <Compile Include="Model\Decard.cs" />
+    <Compile Include="Model\Diamond.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RheinwerkAdventure
 {
-	public class World
+	internal class World
 	{
 		public List<Area> Areas
 		{

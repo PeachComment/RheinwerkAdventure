@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	public interface IAttackable
+	internal interface IAttackable
 	{
 		int Hitpoints { get; }
 	}

@@ -9,7 +9,7 @@ namespace RheinwerkAdventure
 	/// <summary>
 	/// This is the main type for your game.
 	/// </summary>
-	internal class Game1 : Game
+	internal class RheinwerkGame : Game
 	{
 		GraphicsDeviceManager graphics;
 

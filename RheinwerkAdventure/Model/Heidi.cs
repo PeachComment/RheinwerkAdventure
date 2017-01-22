@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	public class Heidi : Character
+	internal class Heidi : Character
 	{
 		public Heidi()
 		{

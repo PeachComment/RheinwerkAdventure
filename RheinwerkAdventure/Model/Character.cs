@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace RheinwerkAdventure
 {
-	public class Character : Item
+	internal class Character : Item
 	{
 		public Vector2 Velocity
 		{

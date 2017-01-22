@@ -3,9 +3,21 @@ using System.Collections.Generic;
 
 namespace RheinwerkAdventure
 {
-	public class Area
+	internal class Area
 	{
-		public List<Tile> Tiles
+		public int Width
+		{
+			get;
+			private set;
+		}
+
+		public int Height
+		{
+			get;
+			private set;
+		}
+
+		public Tile[,] Tiles
 		{
 			get;
 			private set;
@@ -17,9 +29,11 @@ namespace RheinwerkAdventure
 			private set;
 		}
 
-		public Area()
+		public Area(int width, int height)
 		{
-			Tiles = new List<Tile>();
+			Width = width;
+			Height = height;
+			Tiles = new Tile[width, height];
 			Items = new List<Item>();
 		}
 	}

@@ -1,9 +1,9 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	internal class Tile
+	internal class Diamond : Item
 	{
-		public Tile()
+		public Diamond()
 		{
 		}
 	}

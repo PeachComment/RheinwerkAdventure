@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RheinwerkAdventure
 {
-	public interface IInteractable
+	internal interface IInteractable
 	{
 	}
 }
