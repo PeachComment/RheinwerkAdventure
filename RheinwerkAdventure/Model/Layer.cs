@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-
 namespace RheinwerkAdventure
 {
-	internal class Area
+	internal class Layer
 	{
 		public int Width
 		{
@@ -17,19 +15,13 @@ namespace RheinwerkAdventure
 			private set;
 		}
 
-		public Layer[] Layers
+		public Tile[,] Tiles
 		{
 			get;
 			private set;
 		}
 
-		public List<Item> Items
-		{
-			get;
-			private set;
-		}
-
-		public Area(int layers, int width, int height)
+		public Layer(int width, int height)
 		{
 			if (width < 5)
 			{
@@ -43,14 +35,7 @@ namespace RheinwerkAdventure
 
 			Width = width;
 			Height = height;
-
-			Layers = new Layer[layers];
-			for (int l = 0; l < layers; l++)
-			{
-				Layers[l] = new Layer(width, height);
-			}
-
-			Items = new List<Item>();
+			Tiles = new Tile[width, height];
 		}
 	}
 }

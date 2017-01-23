@@ -40,12 +40,22 @@ namespace RheinwerkAdventure
 			{
 				for (int y = 0; y < area.Height; y++)
 				{
-					Tile tile = area.Tiles[x, y];
+					bool blocked = false;
+					for (int l = 0; l < area.Layers.Length; l++)
+					{
+						blocked |= area.Layers[l].Tiles[x, y].Blocked;
+					}
 
 					int offsetX = (int)(x * scaleX) + 10;
 					int offsetY = (int)(y * scaleY) + 10;
 
-					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), Color.DarkGreen);
+					Color color = Color.DarkGreen;
+					if (blocked)
+					{
+						color = Color.DarkRed;
+					}
+
+					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), color);
 					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, 1, (int)scaleY), Color.Black);
 					spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, 1), Color.Black);
 				}

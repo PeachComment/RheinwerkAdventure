@@ -56,6 +56,7 @@
     <Compile Include="Model\Orc.cs" />
     <Compile Include="Model\Decard.cs" />
     <Compile Include="Model\Diamond.cs" />
+    <Compile Include="Model\Layer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
