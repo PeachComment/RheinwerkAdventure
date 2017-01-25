@@ -5,6 +5,7 @@ namespace RheinwerkAdventure
 	{
 		public Diamond()
 		{
+			Mass = 0.5f;
 		}
 	}
 }
