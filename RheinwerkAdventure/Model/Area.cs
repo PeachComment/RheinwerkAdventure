@@ -52,5 +52,23 @@ namespace RheinwerkAdventure
 
 			Items = new List<Item>();
 		}
+
+		public bool isCellBlocked(int x, int y)
+		{
+			// Sonderfall außerhalb des Spielfeldes
+			if (x == 0 || y == 0 || x > Width - 1 || y > Height - 1)
+			{
+				return true;
+			}
+
+			for (int l = 0; l < Layers.Length; l++)
+			{
+				if (Layers[l].Tiles[x, y].Blocked)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }
