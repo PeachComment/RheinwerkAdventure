@@ -10,6 +10,8 @@ namespace RheinwerkAdventure
 		public const int AREA_WIDTH = 30;
 		public const int AREA_HEIGHT = 20;
 
+		private float gap = 0.00001f;
+
 		private readonly RheinwerkGame game;
 
 		public World World
@@ -137,35 +139,115 @@ namespace RheinwerkAdventure
 		{
 			foreach (var item in area.Items)
 			{
-				Vector2 position = item.Position + item.move;
-				int minCellX = (int)(position.X - item.Radius);
-				int maxCellX = (int)(position.X + item.Radius);
-				int minCellY = (int)(position.Y - item.Radius);
-				int maxCellY = (int)(position.Y + item.Radius);
 
-				for (int x = minCellX; x <= maxCellX; x++)
+				bool collision = false;
+				int loops = 0;
+
+				do
 				{
-					for (int y = minCellY; y <= maxCellY; y++)
-					{
-						// ist die Zelle blockiert?
-						if (!area.isCellBlocked(x, y))
-						{
-							continue;
-						}
+					Vector2 position = item.Position + item.move;
+					int minCellX = (int)(position.X - item.Radius);
+					int maxCellX = (int)(position.X + item.Radius);
+					int minCellY = (int)(position.Y - item.Radius);
+					int maxCellY = (int)(position.Y + item.Radius);
 
-						if (position.X - item.Radius > x + 1 ||
-						   position.X + item.Radius < x ||
-						   position.Y - item.Radius > y + 1 ||
-						   position.Y + item.Radius < y)
+					// Console.WriteLine(minCellX);
+					// Console.WriteLine(maxCellX);
+					// Console.WriteLine(minCellY);
+					// Console.WriteLine(maxCellY);
+
+					collision = false;
+					float minImpact = 2f;
+					int minAxis = 0;
+
+					for (int x = minCellX; x <= maxCellX; x++)
+					{
+						for (int y = minCellY; y <= maxCellY; y++)
 						{
-							continue;
+							// ist die Zelle blockiert?
+							if (!area.IsCellBlocked(x, y))
+							{
+								continue;
+							}
+
+							if (position.X - item.Radius > x + 1 ||
+							   position.X + item.Radius < x ||
+							   position.Y - item.Radius > y + 1 ||
+							   position.Y + item.Radius < y)
+							{
+								continue;
+							}
+
+							collision = true;
+
+							float diffX = float.MaxValue;
+							if (item.move.X > 0)
+							{
+								diffX = (position.X + item.Radius) - x + gap;
+							}
+							if (item.move.X < 0)
+							{
+								diffX = (position.X - item.Radius) - (x + 1) - gap;
+							}
+
+							float impactX = 1f - (diffX / item.move.X);
+
+							float diffY = float.MaxValue;
+							if (item.move.Y > 0)
+							{
+								diffY = (position.Y + item.Radius) - y + gap;
+							}
+							if (item.move.Y < 0)
+							{
+								diffY = (position.Y - item.Radius) - (y + 1) - gap;
+							}
+
+							float impactY = 1f - (diffY / item.move.Y);
+
+							// 1 = x, 2 = y
+							int axis = 0;
+							float impact = 0f;
+
+							if (impactX > impactY)
+							{
+								axis = 1;
+								impact = impactX;
+							}
+							else
+							{
+								axis = 2;
+								impact = impactY;
+							}
+
+							// Ist diese Kollision eher als die bisher erkannten
+							if (impact < minImpact)
+							{
+								minImpact = impact;
+								minAxis = axis;
+							}
 						}
 					}
-				}
+
+					if (collision)
+					{
+						if (minAxis == 1)
+						{
+							item.move *= new Vector2(minImpact, 1f);
+						}
+						if (minAxis == 2)
+						{
+							item.move *= new Vector2(1f, minImpact);
+						}
+					}
+
+					loops++;
+
+				} while (collision && loops < 2);
 
 				item.Position += item.move;
 				item.move = Vector2.Zero;
 			}
 		}
-}
+	}
+
 }
